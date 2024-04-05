@@ -1,27 +1,29 @@
 package log.autenticacion.controller;
 
+import log.autenticacion.model.AuthResponse;
+import log.autenticacion.model.LoginRequest;
+import log.autenticacion.model.RegisterRequest;
+import log.autenticacion.services.AuthServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+    private final AuthServices authServices;
 
     @PostMapping("/login")
-    public Map<String,String> login( ){
-      Map<String, String> res= new HashMap<>();//objeto string
-        String name="leowader";
-        res.put("mensaje",  "bienvenido "+name);
-        return res;
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
+        return ResponseEntity.ok(authServices.login(request));
     }
     @PostMapping("/register")
-    public String register (){
-        return "register funcionando";
+    public ResponseEntity<AuthResponse> register (@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(authServices.register(request));
     }
 }
